@@ -19,9 +19,9 @@ class App extends React.Component {
         <body>
           <header id="header">
             <div id="nav">
-              <a href="https://www.google.com/">Bread Gallery</a>
-              <a href="https://www.google.com/">About</a>
-              <a href="https://www.google.com/">Recipes</a>
+              <a href="">Bread Gallery</a>
+              <a href="">About</a>
+              <a href="">Recipes</a>
             </div>
           </header>
           <div class="text-center">
@@ -60,6 +60,30 @@ class App extends React.Component {
               </div>
             </div>
           </div>
+
+          <section id="overlay">
+            <form>
+              <section class="bread">
+                <h1>Favorite type of bread:</h1>
+                <input type="radio" name="bread" id="wholeWheat" value="wholeWheat"></input>
+                <label for="wholeWheat">Plain Wheat Bread</label>
+                <input type="radio" name="bread" id="baguette" value="baguette"></input>
+                <label for="baguette">Baguette</label>
+                <input type="radio" name="bread" id="pita" value="pita"></input>
+                <label for="pita">Pita Bread</label>
+                <input type="radio" name="bread" id="brioche" value="brioche"></input>
+                <label for="brioche">Brioche</label>
+                <input type="radio" name="bread" id="banana" value="banana"></input>
+                <label for="banana">Banana Bread</label>
+                <input type="radio" name="bread" id="corn" value="corn"></input>
+                <label for="corn">Cornbread</label>
+              </section>
+              <section class="submission">
+                <input type="button" value="Submit"></input>
+              </section>
+            </form>
+          </section>
+
         </body>
         <footer>
           <h6>Razzi's Bakery</h6>
