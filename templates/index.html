@@ -1,19 +1,18 @@
 {% extends 'base.html' %}
     {% block head %}
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="static/css/main.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Homepage</title>
     {% endblock %}
 
 {% block body %}
-  
     <header id="header">
         <div id="nav">
-          <a href="">Bread Gallery</a>
+          <a href="login">Login</a>
           <a href="">About</a>
           <a href="">Recipes</a>
         </div>
-      </header>
+    </header>
       <div class="text-center">
         <h1>Razzi's Bakery</h1>
       </div>
@@ -24,29 +23,29 @@
         <div class="row">
           <div class="col-sm-4">
             <h1>Plain Wheat Bread</h1>
-            <img src= "Wheatbread.jpg" alt="This is a wheat bread."/>
+            <img src= "{{ url_for('static', filename='Wheatbread.jpg') }}" alt="This is a wheat bread."/>
           </div>
           <div class="col-sm-4">
             <h1>Baguette</h1>
-            <img src= "Baguette.jpg" alt="This is a Baguette."/>
+            <img src= "{{ url_for('static', filename='Baguette.jpg') }}" alt="This is a Baguette."/>
           </div>
           <div class="col-sm-4">
             <h1>Pita Bread</h1>
-            <img src= "Pitabread.jpg" alt="This is Pita bread."/>
+            <img src= "{{ url_for('static', filename='Pitabread.jpg') }}" alt="This is Pita bread."/>
           </div>
         </div>
         <div class ="row">
           <div class="col-sm-4">
             <h1>Brioche</h1>
-            <img src= "Brioche.jpg" alt="This a Brioche."/>
+            <img src= "{{ url_for('static', filename='Brioche.jpg') }}" alt="This a Brioche."/>
           </div>
           <div class="col-sm-4">
             <h1>Banana Bread</h1>
-            <img src= "Bananabread.jpg" alt="This is Banana bread"/>
+            <img src= "{{ url_for('static', filename='Bananabread.jpg') }}" alt="This is Banana bread"/>
           </div>
           <div class="col-sm-4">
             <h1>Cornbread</h1>
-            <img src= "Cornbread.jpg" alt="This is Cornbread"/>
+            <img src= "{{ url_for('static', filename='Cornbread.jpg') }}" alt="This is Cornbread"/>
           </div>
         </div>
       </div>
