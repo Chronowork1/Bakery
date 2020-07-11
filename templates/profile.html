@@ -1,0 +1,25 @@
+{% extends 'bootstrap/base.html' %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+{% endblock %}
+{% block body %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <header id="header">
+        <div id="nav">
+          <a href="login">Login</a>
+          <a href="signup">Signup</a>
+          <a href="">Recipes</a>
+          <a href="{{url_for('logout')}}">Logout</a>
+        </div>
+      </header>
+    </div>
+  </nav>
+  <div>
+    <h1>Hello, {{name}}</h1>
+  </div>
+
+{% endblock %}
+
