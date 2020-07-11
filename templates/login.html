@@ -1,33 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-</head>
-<body>
-    <section>
-        <form method="POST">
-            <div class="field">
-                <label class="label">Username</label>
-                <div>
-                    <input class="input" type="text" name="username" placeholder="Username">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Password</label>
-                <p>
-                    <input class="input" type="password" name="password" placeholder="Password">
-                </p>
-            </div>
-            <div class="field">
-                <p class="control">
-                <button type="submit" class="button is-success">
-                    Login
-                </button>
-                </p>
-            </div>
-        </form>
-      </section>
-</body>
-</html>
+{% endblock %}
+{% block body %}
+<div class="container">
+
+    <form class="form-signin" method="POST" action="/login">
+      <h2 class="form-signin-heading">Please sign in</h2>
+      {{ form.hidden_tag() }}
+      {{ wtf.form_field(form.username) }}
+      {{ wtf.form_field(form.password) }}
+      {{ wtf.form_field(form.remember) }}
+      <button type="submit">Sign in</button>
+    </form>
+
+  </div> <!-- /container -->
+{% endblock %}
