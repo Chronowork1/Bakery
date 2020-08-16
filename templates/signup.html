@@ -18,6 +18,7 @@ Signup
       {{ wtf.form_field(form.username) }}
       {{ wtf.form_field(form.email) }}
       {{ wtf.form_field(form.password) }}
+      {{ wtf.form_field(form.confirm) }}
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for msg in messages %}
