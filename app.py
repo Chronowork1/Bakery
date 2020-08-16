@@ -1,85 +1,104 @@
-from flask import Flask, g, redirect, render_template, request, session, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, redirect, url_for
+from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm, Form
+from wtforms import StringField, PasswordField, BooleanField
+from wtforms.validators import InputRequired, Email, Length, email_validator
+from flask_sqlalchemy  import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 #referencing this file
 app = Flask(__name__)
+
 #Set secret key to work with sessions
-app.secret_key = 'Razzi'
+app.config['SECRET_KEY'] = 'Razzi'
 #Telling app where database is located
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 #Initialize database
+Bootstrap(app)
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
-#Create User class 
-class User:
-    #create def __init__ with id, username and password
-    def __init__(self, id, username, password):
-        self.id = id
-        self.username = username
-        self.password = password
+#Object orieted User
+class User(UserMixin, db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    username= db.Column(db.String(15), unique=True)
+    email = db.Column(db.String(50), unique=True)
+    password= db.Column(db.String(80))
 
-    #Return a representation so we can see it working
-    #on the command lines, to make sure it works
-    def __repr__(self):
-        return f'<User: {self.username}>'
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
-#Global variable that represents all the users
-users = []
-#Append users to this list
-users.append(User(id=1, username='Anthony', password='password'))
-users.append(User(id=2, username='Becca', password='secret'))
+#Object oriented LoginForm
+class LoginForm(FlaskForm):
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
+    remember = BooleanField('remember me')
 
-#check the session at the beginning of the request
-@app.before_request
-def before_request():
-    g.user = None
-    #check if user_id exist in th session
-    if 'user_id' in session:
-        #Finding the user
-        user = [x for x in users if x.id == session['user_id']][0]
-        g.user = user
+#Object oriented registerForm
+class RegisterForm(FlaskForm):
+    email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
-#Creating the index route
-@app.route('/', methods=['GET'])
+#Route to template
+@app.route('/')
+#Define a function that renders the page index
 def index():
     return render_template('index.html')
 
-#Created a index route to login.
+#Route to login
 @app.route('/login', methods=['GET', 'POST'])
-
-#If the request method is post in html
-#Get the username from request form in html,
-#Loop through the list and check if the user have the username and password
+#Define a function login that search database.db for username, if the username and password matches,
+#the page redirect to profile
 def login():
-    if request.method == 'POST':
-        #Anytime a user attempt to login, when login, it will remove session and create new session
-        #Remove user_id
-        session.pop('user_id', None)
-        username = request.form['username']
-        password = request.form['password']
+    #pass form to template
+    form = LoginForm()
 
-        user = [x for x in users if x.username == username][0]
-        #The user will have a value if found anything
-        if user and user.password == password:
-            session['user_id'] = user.id
-             #After login redirect to profile page
-            return redirect(url_for('profile'))
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if check_password_hash(user.password, form.password.data):
+                login_user(user, remember=form.remember.data)
+                return redirect(url_for('profile'))
+        return '<h1>Invalid username or password</h1>'
+    return render_template('login.html', form=form)
 
-        #If enter wrong username or password, return back to login
-        return redirect(url_for('login'))
+#Route to signup
+@app.route('/signup', methods=['GET', 'POST'])
+#Define a function signup that add a user username, password and email to database.db
+def signup():
+    form = RegisterForm()
+    #Check and see if the form has been submittedand added into database.
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
+        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
 
-    return render_template('login.html')
+        return '<h1>New user has been created!</h1>'
+    return render_template('signup.html', form=form)
 
-#Created a index route to profile.
+#Route to profile
 @app.route('/profile')
+#Login on login.html required for access
+@login_required
+#Define a function that return the page of profile
 def profile():
-    #If not login, redirect to login screen
-    if not g.user:
-        return redirect(url_for('login'))
-        
-    return render_template('profile.html')
+    return render_template('profile.html', name=current_user.username, id=current_user.id)
 
-if __name__ == "__main__":
-    #If there is any error,
-    #it will show on the page
+#Route to logout
+@app.route('/logout')
+#Login required on page
+@login_required
+#Define a function logout that redirect the user back to the index page
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+#If there is an error this will show.
+if __name__ == '__main__':
     app.run(debug=True)

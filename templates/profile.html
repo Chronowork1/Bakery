@@ -1,16 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-</head>
-<body>
-    <h1 class="title">
-        {{g.user.username}}'s Profile
-    </h1>
-    <h2 class="subtitle">
-        You are user number #{{g.user.id}}
-    </h2>
-</body>
-</html>
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='profile.css')}}">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form method="POST" action="/profile">
+      <h1 class="title">
+        {{ name }}'s Profile
+      </h1>
+      <h2 class="subtitle">
+        Welcome {{ id }}!
+      </h2>
+
+      <h2><a href=" {{url_for('logout')}} ">Logout</a></h2>
+    </form>
+  </div>
+{% endblock %}
