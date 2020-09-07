@@ -7,7 +7,9 @@ Profile
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='profile.css')}}">
+<link rel="stylesheet" href="static/css/profile.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title>Homepage</title>
 {% endblock %}
 
 {% block content %}
@@ -19,8 +21,73 @@ Profile
       <h2 class="subtitle">
         Welcome {{ id }}!
       </h2>
-
       <h2><a href=" {{url_for('logout')}} ">Logout</a></h2>
+
+    <header id="header">
+      <div id="nav">
+        <a href="login">Login</a>
+        <a href="signup">Signup</a>
+        <a href="">Recipes</a>
+      </div>
+    </header>
+
+    <div class="text-center">
+      <h1>Razzi's Bakery</h1>
+    </div>
+    <div>
+
+    </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4">
+            <h1>Plain Wheat Bread</h1>
+            <img src= "{{ url_for('static', filename='Wheatbread.jpg') }}" alt="This is a wheat bread."/>
+          </div>
+          <div class="col-sm-4">
+            <h1>Baguette</h1>
+            <img src= "{{ url_for('static', filename='Baguette.jpg') }}" alt="This is a Baguette."/>
+          </div>
+          <div class="col-sm-4">
+            <h1>Pita Bread</h1>
+            <img src= "{{ url_for('static', filename='Pitabread.jpg') }}" alt="This is Pita bread."/>
+          </div>
+        </div>
+        <div class ="row">
+          <div class="col-sm-4">
+            <h1>Brioche</h1>
+            <img src= "{{ url_for('static', filename='Brioche.jpg') }}" alt="This a Brioche."/>
+          </div>
+          <div class="col-sm-4">
+            <h1>Banana Bread</h1>
+            <img src= "{{ url_for('static', filename='Bananabread.jpg') }}" alt="This is Banana bread"/>
+          </div>
+          <div class="col-sm-4">
+            <h1>Cornbread</h1>
+            <img src= "{{ url_for('static', filename='Cornbread.jpg') }}" alt="This is Cornbread"/>
+          </div>
+        </div>
+      </div>
+      
+      <!--<form method="POST" action="/send">
+        <section class="bread">
+          <h1>Favorite type of bread:</h1>
+          <input type="checkbox" name="bread" id="wholeWheat" value="wholeWheat"></input>
+          <label for="wholeWheat">Plain Wheat Bread</label>
+          <input type="checkbox" name="bread" id="baguette" value="baguette"></input>
+          <label for="baguette">Baguette</label>
+          <input type="checkbox" name="bread" id="pita" value="pita"></input>
+          <label for="pita">Pita Bread</label>
+          <input type="checkbox" name="bread" id="brioche" value="brioche"></input>
+          <label for="brioche">Brioche</label>
+          <input type="checkbox" name="bread" id="banana" value="banana"></input>
+          <label for="banana">Banana Bread</label>
+          <input type="checkbox" name="bread" id="corn" value="corn"></input>
+          <label for="corn">Cornbread</label>
+        </section>
+        <section class="submission">
+          <input type="submit" value="submit"></input>
+        </section>
+      </form>-->
     </form>
   </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, Form
 from wtforms import StringField, PasswordField, BooleanField
@@ -6,17 +6,21 @@ from wtforms.validators import InputRequired, Email, Length, email_validator, Eq
 from flask_sqlalchemy  import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
 #referencing this file
 app = Flask(__name__)
-
 #Set secret key to work with sessions
 app.config['SECRET_KEY'] = 'Razzi'
 #Telling app where database is located
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config.from_pyfile('config.cfg')
+
 #Initialize database
 Bootstrap(app)
 db = SQLAlchemy(app)
+mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -46,9 +50,21 @@ class RegisterForm(FlaskForm):
     confirm =  PasswordField('confirm', validators=[InputRequired(), EqualTo('password', message="Password must match")])
 
 #Route to template
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 #Define a function that renders the page index
 def index():
+    if request.method == 'POST':
+        bread_list = request.form.getlist('bread')
+        for food in range(len(bread_list)):
+            print(bread_list[food])
+        #bread = request.form['bread']
+        #print(bread_list)
+        #return render_template('bread.html', bread=bread)
+        #msg = Message('Favorite Bread', recipients=['landoxie@gmail.com'])
+        #msg.body = "Your favorite bread is "  + str(bread_list[food])
+        #mail.send(msg)
+
+    #return 'Message has been sent'
     return render_template('index.html')
 
 #Route to login
@@ -84,12 +100,20 @@ def signup():
     return render_template('signup.html', form=form)
 
 #Route to profile
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 #Login on login.html required for access
 @login_required
 #Define a function that return the page of profile
 def profile():
     return render_template('profile.html', name=current_user.username, id=current_user.id)
+
+#@app.route('/send', methods=['GET', 'POST'])
+#def send():
+    #if request.method == 'POST':
+        #bread = request.form['bread']
+        #print(request.form.getlist('bread'))
+        #return render_template('bread.html', bread=bread)
+    #return render_template('index.html')
 
 #Route to logout
 @app.route('/logout')

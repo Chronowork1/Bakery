@@ -1,10 +1,3 @@
-body{
-    background-color: #c68958;
-}
-
-#header{
-    background-color: white;
-}
 #nav{
     display:flex;
     justify-content:flex-end;
@@ -16,4 +9,18 @@ body{
     padding:5px 20px 5px 20px;
     font-size: 20px;
     font-family:arial;
+}
+
+img{
+    max-width: 100%; 
+    max-height: 100%; 
+}
+
+form{
+    text-align: center;
+    overflow: auto;
+}
+
+.bread label{
+    margin-right: 25px;
 }
