@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4d56b34f62a90f41172415fd07bb4d243a68f29b9cffbe2e3c68a5a7dbecefb0"
+            "sha256": "38b9598149ae7e53f089a9fe45198d99aa4869be233e8e5b61d8e4db9cebcbbb"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -38,10 +38,10 @@
         },
         "dominate": {
             "hashes": [
-                "sha256:22636ad28200e75fa9e751f0511aaeb9f0b630044ed8ccbd89c27acdf3dda7a1",
-                "sha256:9b05481605ea8c0afd0a98c0156a9fb78d9c406368d66b3e6fedf36920fb9d78"
+                "sha256:456facce7a7ccfd9363948109cf1e978d48c58e46a46b01c71b4c0adc73b1928",
+                "sha256:60d9035567067574914febbf2cb50bd6eee09b8636a2b98c79e67c15c06cb7cf"
             ],
-            "version": "==2.5.1"
+            "version": "==2.5.2"
         },
         "email-validator": {
             "hashes": [
@@ -88,6 +88,14 @@
             ],
             "index": "pypi",
             "version": "==0.14.3"
+        },
+        "gunicorn": {
+            "hashes": [
+                "sha256:1904bb2b8a43658807108d59c3f3d56c2b6121a701161de0ddf9ad140073c626",
+                "sha256:cd4a810dd51bf497552cf3f863b575dabd73d6ad6a91075b65936b151cbf4f9c"
+            ],
+            "index": "pypi",
+            "version": "==20.0.4"
         },
         "idna": {
             "hashes": [
